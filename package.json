@@ -1,0 +1,19 @@
+{
+  "name": "css-color-grab-cli",
+  "version": "0.1.0",
+  "description": "Command line tool that extracts all uses of a single color from a CSS file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmitry Mayorov (http://dmitrymayorov.com)",
+  "license": "GPLv2 (or later)",
+  "preferGlobal": true,
+  "bin": {
+    "css-color-grab": "index.js"
+  },
+  "devDependencies": {
+    "csscomb": "^3.1.8",
+    "postcss": "^5.0.6"
+  }
+}
