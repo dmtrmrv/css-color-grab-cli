@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/iamdmitrymayorov/css-color-grab-cli"
   },
@@ -26,7 +26,7 @@
   "bin": {
     "css-color-grab": "index.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "csscomb": "^3.1.8",
     "postcss": "^5.0.6"
   }
