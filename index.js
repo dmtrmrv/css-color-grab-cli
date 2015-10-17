@@ -7,7 +7,7 @@ var Comb    = require( 'csscomb' );
 var comb    = new Comb( 'csscomb' );
 
 // Process user arguments.
-var userArgs   = process.argv.slice(2);
+var userArgs   = process.argv.slice( 2 );
 var color      = userArgs[0];
 var inputFile  = userArgs[1];
 var outputFile = userArgs[2];
@@ -37,10 +37,20 @@ var properties = [
 /**
  * Checks if property allows color.
  * @param  {string} prop The name of the property.
- * @return {bool}        
+ * @return {bool}
  */
 function propAllowColor( prop ) {
 	return properties.indexOf( prop ) > -1;
+}
+
+/**
+ * Checks if given property value has given color.
+ * @param  {string} color The name of the property.
+ * @param  {string} value Property value that potentially has needed color.
+ * @return {bool}
+ */
+function valueHasColor( value, color ) {
+	return value.indexOf( color ) > -1;
 }
 
 /**
@@ -51,9 +61,9 @@ function propAllowColor( prop ) {
 function processInput( data ) {
 	// Parse the css.
 	var css = postcss.parse( data, { from: inputFile } );
-	
-	// Define empty 
-	var outputCss = ''
+
+	// Define empty.
+	var outputCss = '';
 
 	// Object containing the list of color properties and selectors.
 	var selectors = {};
@@ -65,18 +75,22 @@ function processInput( data ) {
 	 * If property is already present in the object, just add the selector.
 	 */
 	postcss.parse( css ).walkDecls( function ( decl ) {
-		if ( propAllowColor( decl.prop ) && decl.value == ('#' + color ) ) {
+		if ( propAllowColor( decl.prop ) && valueHasColor( decl.value, color ) ) {
 			if ( ! selectors.hasOwnProperty( decl.prop ) ) {
-				selectors[ decl.prop ] = [];
+				selectors[ decl.prop ] = {};
+				selectors[ decl.prop ].selectors = [];
+				selectors[ decl.prop ].value = '';
 			}
-			selectors[ decl.prop ].push( decl.parent.selector );
+			selectors[ decl.prop ].selectors.push( decl.parent.selector );
+			selectors[ decl.prop ].value = decl.value;
 		}
 	} );
 
 	// Build the CSS.
-	for ( var prop in selectors ) {
-		if ( selectors.hasOwnProperty( prop ) ) {
-			outputCss += selectors[prop].join() + ' { ' + prop + ': #' + color + ' }\n\n';
+	for ( var k in selectors ) {
+		if ( selectors.hasOwnProperty( k ) ) {
+			var prop = selectors[k];
+			outputCss += prop.selectors.join() + ' { ' + k + ': ' + prop.value + ' }\n\n';
 		}
 	}
 
@@ -88,6 +102,7 @@ function processInput( data ) {
 			console.log( 'All done!' );
 		} else {
 			console.log( outputCss )
+			console.log( 'All done!' );
 		}
 	}
 }
