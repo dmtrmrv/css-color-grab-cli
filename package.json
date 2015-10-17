@@ -1,6 +1,6 @@
 {
   "name": "css-color-grab-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Command line tool that extracts all uses of a single color from a CSS file.",
   "main": "index.js",
   "scripts": {
