@@ -46,3 +46,6 @@ cache
 node_modules
 .sass-cache
 npm-debug.log
+
+# Test CSS Files
+*.css
